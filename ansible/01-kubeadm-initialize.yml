@@ -1,0 +1,70 @@
+---
+# This playbook will initialize kubeadm on our chaos cluster hosts
+
+- hosts: all
+  user: root
+#  become: yes
+#  become_user: root
+#  become_method: sudo
+  connection: ssh
+  gather_facts: no
+  tasks:
+    - name: Install Ansible requirements
+      raw: apt update && apt install -y python
+
+    - name: Install apt-transport-https
+      apt: 
+        name: apt-transport-https 
+        update_cache: yes
+
+    - name: Add GCP apt signing key
+      apt_key: 
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+
+    - name: Create Kubernetes apt repo list
+      apt_repository:
+        repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
+        state: present
+
+    - name: Install Kubernetes packages
+      apt:
+        name: "{{ item }}"
+        state: latest
+        update_cache: yes
+      with_items:
+        - kubelet
+        - kubeadm
+        - kubectl
+        - docker.io
+
+    - name: Update all Debian/Ubuntu hosts
+      apt: 
+        upgrade: dist
+
+    - name: Create .kube directory
+      file:
+        path: /root/.kube
+        state: directory
+        mode: 0755
+
+    - name: Run kubeadm init on master
+      when: inventory_hostname == 'k8s-node-1'
+      shell: kubeadm init
+      register: kubeadminit
+
+    - name: Copy kubeadm configs to .kube
+      when: inventory_hostname == 'k8s-node-1'
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /root/.kube/config
+        owner: root
+        group: root
+        mode: 0755
+        remote_src: yes
+
+    - name: Show kubeadm results
+      debug: var=kubeadminit
+
+
+

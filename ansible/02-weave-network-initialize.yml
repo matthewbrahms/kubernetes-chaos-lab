@@ -1,0 +1,33 @@
+---
+# This playbook will initialize Weave on our cluster
+
+- hosts: k8s-node-1
+  user: root
+  connection: ssh
+  gather_facts: yes
+  tasks:
+    - name: Gather Weave manifest file
+      get_url:
+        url: https://cloud.weave.works/k8s/v1.8/net.yaml
+        dest: /root/weave.yml
+        mode: 0755
+
+    - name: Initialize Weave network on our k8s cluster
+      shell: kubectl apply -f weave.yml
+      args:
+        chdir: /root/
+      register: weaveinit
+
+    - name: Check output for successful weave init
+      debug: var=weaveinit
+
+    - name: Wait for Weave Net to come up (45 seconds)
+      wait_for: timeout=45
+      delegate_to: localhost
+
+    - name: Check to be sure weave pods are up in k8s
+      shell: kubectl get pods --all-namespaces
+      register: weaveup
+
+    - name: Show weaveup results
+      debug: var=weaveup

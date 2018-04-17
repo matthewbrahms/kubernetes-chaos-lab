@@ -1,0 +1,49 @@
+---
+# This playbook will install the Weaveworks Microservices Sock Shop
+
+- hosts: k8s-node-1
+  user: root
+  connection: ssh
+  gather_facts: yes
+  tasks:
+    - name: Clone the Weave Sock Shop repo to our machine
+      git: 
+        repo: 'https://github.com/microservices-demo/microservices-demo.git'
+        dest: /root/microservices-demo
+
+    - name: Create sock-shop namespace
+      shell: kubectl create namespace sock-shop
+      args:
+        chdir: /root/microservices-demo/deploy/kubernetes/
+      register: namespace
+
+    - name: Output for namespace creation
+      debug: var=namespace
+
+    - name: Create sock-shop deployment
+      shell: kubectl apply -f complete-demo.yaml
+      args:
+        chdir: /root/microservices-demo/deploy/kubernetes/
+      register: deploy
+
+    - name: See if sock-shop deploy is successful
+      debug: var=deploy
+
+    - name: Let the sock-shop deploy simmer for 45 seconds...
+      wait_for: timeout=45
+      delegate_to: localhost
+
+    - name: Quick pod check to be sure all pods came up successfully
+      shell: kubectl get pods --namespace sock-shop
+      register: podcheck
+
+    - name: Output to be sure all pods are up
+      debug: var=podcheck
+
+    - name: Register Sock Shop URL
+      set_fact:
+        ip: "{{ ansible_default_ipv4.address }}:30001"
+      register: ip
+
+    - name: Output URL for sock-shop
+      debug: var=ip
