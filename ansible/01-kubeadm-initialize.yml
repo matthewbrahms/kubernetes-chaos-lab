@@ -3,9 +3,6 @@
 
 - hosts: all
   user: root
-#  become: yes
-#  become_user: root
-#  become_method: sudo
   connection: ssh
   gather_facts: no
   tasks:
@@ -65,6 +62,3 @@
 
     - name: Show kubeadm results
       debug: var=kubeadminit
-
-
-

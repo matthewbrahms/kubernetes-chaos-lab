@@ -7,6 +7,7 @@ resource "digitalocean_tag" "k8s-tag" {
   name = "k8s"
 }
 
+# Create our Kubernetes nodes
 resource "digitalocean_droplet" "k8s-nodes" {
   count              = "${var.instance_count}"
   ssh_keys           = ["${var.instance_ssh_key_id}"]
@@ -18,25 +19,4 @@ resource "digitalocean_droplet" "k8s-nodes" {
   ipv6               = false
   name               = "k8s-node-${count.index + 1}"
   tags               = ["${digitalocean_tag.k8s-tag.id}"]
-/*
-  provisioner "remote-exec" {
-    inline = [
-      "export PATH=$PATH:/usr/bin",
-      "apt-get update && apt-get install -y apt-transport-https",
-      "curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -",
-      "cat <<EOF >/etc/apt/sources.list.d/kubernetes.list \
-       deb http://apt.kubernetes.io/ kubernetes-xenial main
-       EOF"
-      "apt-get install -y kubelet kubeadm kubectl docker.io",
-    ]
-
-    connection {
-      type        = "ssh"
-      private_key = "${file("~/.ssh/ansible_lab")}"
-      user        = "root"
-      timeout     = "2m"
-    }
-  }
-*/
 }
-

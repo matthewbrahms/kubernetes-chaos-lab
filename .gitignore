@@ -3,3 +3,5 @@ variables.tf
 *.tfstate
 *.tfstate.backup
 .terraform/
+datadog-agent.yaml
+gremlin-daemonset.yaml
