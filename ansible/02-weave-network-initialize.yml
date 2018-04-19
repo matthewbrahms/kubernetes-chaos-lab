@@ -2,7 +2,7 @@
 # This playbook will initialize Weave on our cluster
 
 - hosts: k8s-node-1
-  user: root
+  remote_user: root
   connection: ssh
   gather_facts: yes
   tasks:

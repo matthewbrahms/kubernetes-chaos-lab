@@ -2,7 +2,10 @@
 # This playbook will initialize kubeadm on our chaos cluster hosts
 
 - hosts: all
-  user: root
+  remote_user: root
+  vars_prompt:
+    - name: datadog_api_key
+      prompt: Input your DataDog API key
   connection: ssh
   gather_facts: no
   tasks:
@@ -38,6 +41,10 @@
     - name: Update all Debian/Ubuntu hosts
       apt: 
         upgrade: dist
+      ignore_errors: yes
+
+    - name: Install DataDog host-level monitoring
+      shell: "docker run -d --name dd-agent -v /var/run/docker.sock:/var/run/docker.sock:ro -v /proc/:/host/proc/:ro -v /sys/fs/cgroup/:/host/sys/fs/cgroup:ro -e DD_API_KEY={{ datadog_api_key }} datadog/agent:latest"
 
     - name: Create .kube directory
       file:
@@ -60,5 +67,16 @@
         mode: 0755
         remote_src: yes
 
+    - name: Write out kubeadm init logs to local machine
+      local_action: copy content={{ kubeadminit }} dest=kubeadm_join.log
+
+    - name: Persist kubeadm init logs to k8s-node-1
+      copy:
+        src: kubeadm_join.log
+        dest: /root/kubeadm_join.log
+        owner: root
+        group: root
+        mode: 0755
+        
     - name: Show kubeadm results
       debug: var=kubeadminit

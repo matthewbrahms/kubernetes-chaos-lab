@@ -2,7 +2,7 @@
 # This playbook will install the Weaveworks Microservices Sock Shop
 
 - hosts: k8s-node-1
-  user: root
+  remote_user: root
   connection: ssh
   gather_facts: yes
   tasks:

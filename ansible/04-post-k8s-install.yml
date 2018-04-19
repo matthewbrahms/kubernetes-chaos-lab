@@ -1,0 +1,12 @@
+---
+# This playbook will help copy tooling to our cluster
+
+- hosts: k8s-node-1
+  remote_user: root
+  connection: ssh
+  gather_facts: yes
+  tasks:
+    - name: Copy Kubernetes manifests to k8s-node-1
+      synchronize:
+        src: ../kubernetes-tooling
+        dest: /root/
