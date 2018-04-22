@@ -33,7 +33,7 @@ ansible-playbook 02-weave-network-initialize.yml
 ansible-playbook 03-weave-sock-shop-deploy.yml
 ansilbe-playbook 04-post-k8s-install.yml
 ```
-The last Ansible play here will copy over the Kubernetes manifest file we will need for additional tasks!
+The last Ansible play here will copy over the Kubernetes manifest files that we will need for additional tasks!
 
 3. Configure the lab environment for Kubernetes monitoring and Gremlin attacks!
 - First, fill in the DataDog API key in the `datadog-agent.yaml.example` file and rename it to `datadog-agent.yaml`
