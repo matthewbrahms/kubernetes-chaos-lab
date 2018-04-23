@@ -49,21 +49,32 @@ ansible-playbook 03-weave-sock-shop-deploy.yml
 ```
 ansilbe-playbook 04-post-k8s-install.yml
 ```
-- Now we need to expose the Kubestate metrics for DataDog to scrape and display (this lights up some magical dashboards in DataDog!)  SSH into the `k8s-node-1` host and run the following commands:
+- Now we need to expose the Kubestate metrics for DataDog to scrape and display (this lights up some magical dashboards in DataDog!)  
+
+SSH into the `k8s-node-1` host and run the following commands:
 ```
 ssh -i ~/.ssh/key_for_your_server root@ip.of.k8s-node-1.here
 ```
 ```
 git clone https://github.com/kubernetes/kube-state-metrics.git
-kubectl apply -f kubernetes
+kubectl apply -f ./kube-state-metrics/kubernetes
 ```
 - Now run the setup for DataDog and Gremlin:
 ```
-kubectl apply -f datadog-agent.yaml
-kubectl apply -f gremlin-daemonset.yaml
+kubectl apply -f ./kubernetes-tooling/datadog-agent.yaml
+kubectl apply -f ./kubernetes-tooling/gremlin-daemonset.yaml
 ```
 
-Alright!  Now you have a fully setup Kubernetes installation running the Weave Sock Shop, fully instrumented and monitored Kubernetes cluster, and you are locked-and-loaded to run Gremlin attacks against it! It's time to head over to Gremlin and run your first attack (and watch the chaos in DataDog!)!
+At this point, you should head over to DataDog and enable the Kubernetes integration.  This will generate a magical Kubernetes Dashboard for your cluster (this is very cool!).
+
+Alright, success!  
+
+Now you have:
+- A finished Kubernetes installation running the Weave Sock Shop
+- A fully *instrumented and monitored* Kubernetes cluster
+- Locked-and-loaded to run Gremlin attacks against it!
+
+Head over to Gremlin and run your first attack (and watch the chaos graphically unfold in DataDog!)! 
 
 ## Cleaning up the environment (reset to beginning)
 1. In the `terraform` directory, run the following command and enter "yes" when prompted:
