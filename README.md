@@ -3,6 +3,9 @@
 * TODO: GCP & AWS Terraform support
 * TODO: Document scaling procedure
 
+### Credits:
+Inspired by @tammybutow and https://www.gremlin.com/community/tutorials/ !!
+
 ## What you will need to get this lab environment working
 1. Local computer setup with the following:
 	* [Terraform](https://www.terraform.io/downloads.html)
