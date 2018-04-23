@@ -1,6 +1,7 @@
 # Building Your Own Kubernetes Chaos Environment!
 
 TODO: GCP & AWS Terraform support
+TODO: Document scaling procedure
 
 ## What you will need to get this lab environment working
 1. Local computer setup with the following:
@@ -48,7 +49,10 @@ ansible-playbook 03-weave-sock-shop-deploy.yml
 ```
 ansilbe-playbook 04-post-k8s-install.yml
 ```
-- Now we need to expose the Kubestate metrics for DataDog to scrape and display (this lights up some magical dashboards in DataDog!)  Log into the `k8s-node-1` host and run the following commands:
+- Now we need to expose the Kubestate metrics for DataDog to scrape and display (this lights up some magical dashboards in DataDog!)  SSH into the `k8s-node-1` host and run the following commands:
+```
+ssh -i ~/.ssh/key_for_your_server root@ip.of.k8s-node-1.here
+```
 ```
 git clone https://github.com/kubernetes/kube-state-metrics.git
 kubectl apply -f kubernetes
@@ -60,3 +64,16 @@ kubectl apply -f gremlin-daemonset.yaml
 ```
 
 Alright!  Now you have a fully setup Kubernetes installation running the Weave Sock Shop, fully instrumented and monitored Kubernetes cluster, and you are locked-and-loaded to run Gremlin attacks against it! It's time to head over to Gremlin and run your first attack (and watch the chaos in DataDog!)!
+
+## Cleaning up the environment (reset to beginning)
+1. In the `terraform` directory, run the following command and enter "yes" when prompted:
+```
+terraform destroy
+```
+That kills everything...just a few more details.
+
+2. In the `ansible` directory, remove the `kubeadm_join.log` file.
+
+3. In the `k8s-chaos-cluster` file, remove the IP addresses you used for your hosts.
+
+Alright, tear-down complete!
