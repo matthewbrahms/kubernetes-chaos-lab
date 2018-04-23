@@ -29,6 +29,13 @@ Be sure to take note of the pubic IP addresses output by Terraform. You will nee
 - Run the following commands:
 ```
 ansible-playbook 01-kubeadm-initialize.yml
+```
+At the end of this Ansible play running, you will see in the output logs the kubeadm join command.  You will need to copy/paste and then run an ad-hoc Ansible command against `k8s-node-2` and `k8s-node-3` which will look similar to the following:
+```
+ansible all -b -m shell -a 'kubeadm join <publicIPofK8Smaster>:6443 --token ntzkyq.c01ymoamv4bk2e6u --discovery-token-ca-cert-hash sha256:f875a5cb87e06873276fd286e8a1ee964f50b1d47ad0b7aec564e4d933b77af9' -l k8s-node-2:k8s-node-3
+```
+
+```
 ansible-playbook 02-weave-network-initialize.yml
 ansible-playbook 03-weave-sock-shop-deploy.yml
 ansilbe-playbook 04-post-k8s-install.yml
