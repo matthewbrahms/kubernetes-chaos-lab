@@ -1,7 +1,7 @@
 # Building Your Own Kubernetes Chaos Environment!
 
-TODO: GCP & AWS Terraform support
-TODO: Document scaling procedure
+* TODO: GCP & AWS Terraform support
+* TODO: Document scaling procedure
 
 ## What you will need to get this lab environment working
 1. Local computer setup with the following:
