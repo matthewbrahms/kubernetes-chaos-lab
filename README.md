@@ -4,11 +4,11 @@ TODO: GCP & AWS Terraform support
 
 ## What you will need to get this lab environment working
 1. Local computer setup with the following:
-	* Terraform
-	* Ansible
-2. Digital Ocean account with credits available
-3. DataDog account with 3 available agent licenses
-4. Gremlin account for running attacks
+	* [Terraform](https://www.terraform.io/downloads.html)
+	* [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+2. [Digital Ocean account](https://www.digitalocean.com/) with credits available
+3. [DataDog account](https://www.datadoghq.com/) with 3 available agent licenses
+4. [Gremlin account](https://www.gremlin.com/) for running attacks
 
 ## Instructions to bring up the lab environment:
 1. Bring up the Digital Ocean set of servers (default is 3):
