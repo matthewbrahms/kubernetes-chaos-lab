@@ -2,6 +2,7 @@
 
 * TODO: GCP & AWS Terraform support
 * TODO: Document scaling procedure
+* TODO: Document how this could be used on any three hosts (home lab, raspi 3, etc.)
 
 ### Credits:
 Inspired by @tammybutow and https://www.gremlin.com/community/tutorials/ !!

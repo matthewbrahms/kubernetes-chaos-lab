@@ -37,6 +37,7 @@
         - kubeadm
         - kubectl
         - docker.io
+        - htop
 
     - name: Update all Debian/Ubuntu hosts
       apt: 
