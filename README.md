@@ -47,11 +47,11 @@ ansible-playbook 03-weave-sock-shop-deploy.yml
 ```
 
 3. Configure the lab environment for Kubernetes monitoring and Gremlin attacks!
-- First, fill in the DataDog API key in the `datadog-agent.yaml.example` file and rename it to `datadog-agent.yaml`
+- First, fill in the DataDog API key in the `kubernetes-tooling/datadog-agent.yaml.example` file and rename it to `datadog-agent.yaml`
 - Second, input your 2 secret keys for Gremlin in the `gremlin-daemonset.yaml.example` file. Save that file as `gremlin-daemonset.yaml`
 - Now we need to run an Ansible play to get our k8s manifests to k8s-node-1:
 ```
-ansilbe-playbook 04-post-k8s-install.yml
+ansible-playbook 04-post-k8s-install.yml
 ```
 - Now we need to expose the Kubestate metrics for DataDog to scrape and display (this lights up some magical dashboards in DataDog!)  
 
