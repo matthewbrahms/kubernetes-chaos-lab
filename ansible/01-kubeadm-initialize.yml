@@ -53,6 +53,11 @@
         state: directory
         mode: 0755
 
+    - name: Clone Tammy Butow Chaos Engineering Bootcamp toolset to our servers
+      git:
+        repo: 'https://github.com/tammybutow/chaos_engineering_bootcamp.git'
+        dest: /root/chaos_engineering_bootcamp
+
     - name: Run kubeadm init on master
       when: inventory_hostname == 'k8s-node-1'
       shell: kubeadm init

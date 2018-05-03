@@ -10,3 +10,18 @@
       synchronize:
         src: ../kubernetes-tooling
         dest: /root/
+
+    - name: Clone the Kubestate metrics repo
+      git: 
+        repo: 'https://github.com/kubernetes/kube-state-metrics.git'
+        dest: /root/kube-state-metrics
+
+    - name: Expose the necessary Kubestate metrics
+      shell: kubectl apply -f ./kube-state-metrics/kubernetes
+      args:
+        chdir: /root/
+      register: kubestatemetrics 
+
+    - name: Verify kube-state-metrics is created successfully
+      debug: var=kubestatemetrics
+

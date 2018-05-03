@@ -59,10 +59,6 @@ SSH into the `k8s-node-1` host and run the following commands:
 ```
 ssh -i ~/.ssh/key_for_your_server root@ip.of.k8s-node-1.here
 ```
-```
-git clone https://github.com/kubernetes/kube-state-metrics.git
-kubectl apply -f ./kube-state-metrics/kubernetes
-```
 - Now run the setup for DataDog and Gremlin:
 ```
 kubectl apply -f ./kubernetes-tooling/datadog-agent.yaml
